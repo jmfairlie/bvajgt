@@ -10,13 +10,20 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 	
 	this.idWindow = idWindow;
 	this.parentObj = parentObj;
+	/*
+	 * references an instance of jsWindowContainer
+	 */
 	this.containerNode = null;
+	/*
+	 * node object that encapsules the window when docked in a window container
+	 * check class cNode for details
+	 */
 	this.title = title;
 	this.width = width;
 	this.height = height;
 	this.oheight = height;
 	this.owidth = width;
-	this.icon =(icon == null)?myGuiManager.getDefaultIcon():icon;
+	this.icon =(icon === null)?myGuiManager.getDefaultIcon():icon;
 	this.posx = posx;
 	this.posy = posy;
 	this.active = true;
@@ -30,108 +37,109 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 		this.HTMLObject.style.top = y+"px";
 		this.posx = x;
 		this.posy = y;
-	}
+	};
 	
 	this.getPosition = function()
 	{
 		return [this.posx,this.posy];
-	}
+	};
 	this.restoreSize = function()
 	{
-		this.setWidth(this.owidth)
-		this.setHeight(this.oheight)
-	}
+		this.setWidth(this.owidth);
+		this.setHeight(this.oheight);
+	};
 	this.isDocked = function()
 	{
 		return this.docked;
-	}
+	};
 	this.Dock = function(bool)
 	{
 		this.docked = bool;
-	}
+		//this.showMinButton(bool);
+		this.showCloseButton(bool);	
+	};
 	this.getRect = function()
 	{
-	
 		l = this.HTMLObject.style.left;
 		t = this.HTMLObject.style.top;
-		return [parseInt(l.substring(0,l.length -2)),parseInt(t.substring(0,t.length -2)),this.width,this.height]
-	}
+		return [parseInt(l.substring(0,l.length - 2),10),parseInt(t.substring(0,t.length - 2),10),this.width,this.height];
+	};
 	this.notifyDrag = function()
 	{
-		if(this.parentObj != null)
+		if(this.parentObj !== null)
 		{
 			this.parentObj.onChildDrag(this);
 		}
-	}
+	};
 	
 	this.notifyDrop = function()
 	{
-		if(this.parentObj != null)
+		//if there is a container
+		if(this.parentObj !== null)
 		{
 			this.parentObj.onChildDrop(this);
 		}
-	}
+	};
 	
 	this.setWidth = function(width)
 	{
-		
 		this.width = width;
 		document.getElementById(this.idWindow+"_client").style.width = this.getClientWidth()+"px";
 		document.getElementById(this.idWindow+"_header").style.width = this.getHeaderWidth()+"px";
 		//this.HTMLObject.style.width = this.width+"px";
-	}
+	};
 	
 	this.setHeight = function(height)
 	{
 		this.height = height;
 		document.getElementById(this.idWindow+"_client").style.height = this.getClientHeight()+"px";
 		//this.HTMLObject.style.height = this.height+"px";
-	}
+	};
 	
 	this.getHeight = function()
 	{
 		return this.height;
-	}
+	};
 	
 	this.getWidth = function()
 	{
 		return this.width;
-	}
+	};
 	
 	this.setZ = function(z)
 	{
 		
 		this.HTMLObject.style.zIndex = z;	
-	}
+	};
 	
 	this.getHTMLObject = function()
 	{
 		return this.HTMLObject;
-	}
+	};
 	
 	this.getClientWidth = function()
 	{
 		//no padding no border no margin (CSS1 compliant)
-		return this.width - 2*(myGuiManager.getClientPadding()+myGuiManager.getWindowBorderWidth())
-	}
+		return this.width - 2*(myGuiManager.getClientPadding()+myGuiManager.getWindowBorderWidth());
+	};
 	
 	this.getHeaderWidth = function()
 	{
 		//no padding no border no margin (CSS1 compliant)
 		return this.width - 2*(myGuiManager.getWindowBorderWidth()) - 5;
-	}
+	};
 	
 	this.getClientHeight = function()
 	{
 		//no padding no border no margin (CSS1 compliant)
-		return this.height - myGuiManager.getWindowHeaderHeight() - 2*myGuiManager.getClientPadding()-3*myGuiManager.getWindowBorderWidth()
+		return this.height - myGuiManager.getWindowHeaderHeight() - 2*myGuiManager.getClientPadding()- 3*myGuiManager.getWindowBorderWidth();
 		
-	}
+	};
 	
 	this.setActiveLook = function()
 	{
 		h = document.getElementById(this.idWindow+"_header");
-		if (h != null)
+		if (h !== null)
 		{
 			h.style.background = myGuiManager.getActiveWindowHeaderBg();
 		}
@@ -226,7 +234,7 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 
 		minImageTag ="<IMG id='"+this.idWindow+"_min"+"' src='"+myGuiManager.getMinOutImage()+"'; style='cursor:pointer;' align='right' onmouseover=\"this.src='"+myGuiManager.getMinOverImage()+"'\" onmouseout=\" this.src= '"+myGuiManager.getMinOutImage()+"'\" onmousedown=\"this.src='"+myGuiManager.getMinDownImage()+"'\" onmouseup= myWindowManager.toggleMinimize('"+this.idWindow+"')>"
 		
-		clientDivTag = "<div id =\""+this.idWindow+"_client\" style=\" white-space:nowrap;padding:"+myGuiManager.getClientPadding()+"px; height:"+(this.height - myGuiManager.getWindowHeaderHeight() - 2*myGuiManager.getClientPadding()-3*myGuiManager.getWindowBorderWidth()) +"px; width:"+this.getClientWidth()+"px; border-bottom:"+myGuiManager.getWindowBorderStyle()+";border-left:"+myGuiManager.getWindowBorderStyle()+";border-right:"+myGuiManager.getWindowBorderStyle()+"; overflow :auto; background:"+myGuiManager.getWindowClientAreaBg()+";\">"
+		clientDivTag = "<div id =\""+this.idWindow+"_client\" style=\" white-space:nowrap;padding:"+myGuiManager.getClientPadding()+"px; height:"+(this.height - myGuiManager.getWindowHeaderHeight() - 2*myGuiManager.getClientPadding()- 3*myGuiManager.getWindowBorderWidth()) +"px; width:"+this.getClientWidth()+"px; border-bottom:"+myGuiManager.getWindowBorderStyle()+";border-left:"+myGuiManager.getWindowBorderStyle()+";border-right:"+myGuiManager.getWindowBorderStyle()+"; overflow :auto; background:"+myGuiManager.getWindowClientAreaBg()+";\">"
 		closeDivTag = "</div>"
 		
 		//outp = headerDivTag+"\n\r\t\t"+dragImageTag+"\n\r\t\t"+closeDivTag+"\n\r\t"+ clientDivTag+"\n\r"+content+"\n\r\t"+closeDivTag;
@@ -234,6 +242,30 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 		outp = headerDivTag+"\n\r\t\t"+dragImageTag+"\n\r\t\t"+iconImageTag+"\n\r\t\t"+titleDivTag+"\n\r\t\t\t"+this.title+"\n\r\t\t"+closeDivTag+"\n\r\t\t"+closeImageTag+"\n\r\t\t"+minImageTag+"\n\r\t"+closeDivTag+"\n\r\t"+ clientDivTag+"\n\r"+content+"\n\r\t"+closeDivTag;
 		this.code = outp;
 		
-	}
+	};
+	this.showMinButton = function(bool)
+	{
+		var minButton = document.getElementById(this.idWindow+"_min");
+		if (!bool)
+		{
+			minButton.style.display = "block";
+		}
+		else
+		{
+			minButton.style.display = "none";
+		}
+	};
+	this.showCloseButton = function(bool)
+	{
+		var closeButton = document.getElementById(this.idWindow+"_close");
+		if (!bool)
+		{
+			closeButton.style.display = "block";
+		}
+		else
+		{
+			closeButton.style.display = "none";
+		}
+	};
 	
 }

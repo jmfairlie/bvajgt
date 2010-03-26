@@ -24,6 +24,12 @@
 	<script type="text/javascript" src ="jsvaron/jsDebug.js">
 	
 	</script>
+	<script type="text/javascript" src ="jsvaron/cNode.js">
+	
+	</script> 
+	<script type="text/javascript" src ="jsvaron/cTree.js">
+	
+	</script> 
 	<script type="text/javascript" src ="jsvaron/jsWindowContainer.js">
 	
 	</script> 
@@ -40,23 +46,18 @@
 	{	
 			
 
-		    myWindowContainer = new jsWindowContainer("myContainer", 1200, 700,0,0);
+		    myWindowContainer = new jsWindowContainer("myContainer", 800, 600,20,70);
 			myWindowContainer.createContainer("body");
 			
-			for(var i = 0 ; i < 3; i++ )
+			for(var i = 0 ; i < 10; i++ )
 			{
-				myDynamicWindow = new jsWindow("testWindow"+i,myWindowContainer,"tree example"+i, 300, 200,null,1210+i*10,100+i*50)
+				myDynamicWindow = new jsWindow("testWindow"+i,myWindowContainer,"tree example"+i,300,200,null,1010+i*10,100+i*50);
 				myTree = new jsTree();
 				//populateTree(myTree);
 				dummyContent(myTree);
 				myDynamicWindow.setContent(myTree);
 				myWindowManager.addWindow(myDynamicWindow);	
 			}
-			
-			myDynamicWindow = new jsWindow('testWindow5',myWindowContainer,'video example', 300, 200,null,1240,250)
-			myFlashObject = new jsFlashObject(425,350,"http://www.youtube.com/v/PtkUQbsvokw");
-			myDynamicWindow.setContent(myFlashObject);
-			myWindowManager.addWindow(myDynamicWindow);	
 			myDebugWindow.parentObj = myWindowContainer;
 	
 	}
@@ -66,7 +67,7 @@
 	
 </head>
 
-<body id= "body" onload="initialize(); myWindowManager.createWindows();" onmousemove="return mouseMoveHandler(event);" onmouseup= "dropWindow();myWindowManager.stopResize();"  style="overflow:hidden; background: #5380CA url('./images/bliss.jpg') no-repeat fixed center center">
+<body id= "body" onload="initialize(); myWindowManager.createWindows();" onmousemove="return mouseMoveHandler(event);" onmouseup= "dropWindow();myWindowManager.stopResize();"  style="overflow:hidden; background: #CCCCCC">
 	
 	<H1>container Test</H1>	
 	

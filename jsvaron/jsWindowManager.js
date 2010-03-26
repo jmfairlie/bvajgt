@@ -7,28 +7,27 @@ var rl = false;
 
 function windowManager()
 {
-  this.windowList = new Array()
-
+  this.windowList = new Array();
   //I dont think this method is being used at all. Please check
   this.notifyDrag = function(idWindow)
 	{
 		wObj = this.getWindowObject(idWindow);
 		
-		if (wObj != null)
+		if (wObj !== null)
 		{
 			wObj.notifyDrag();
 		}
-	}
+	};
 	//I dont think this method is being used at all. Please check
 	this.notifyDrop = function(idWindow)
 	{
 		wObj = this.getWindowObject(idWindow);
 		
-		if (wObj != null)
+		if (wObj !== null)
 		{
 			wObj.notifyDrop();
 		}
-	}
+	};
   
   this.checkResize = function()
   {
@@ -36,11 +35,11 @@ function windowManager()
 	{
 		rl = true;
 	}
-  }
+  };
   this.stopResize = function()
   {
 	rl = false;
-  }
+  };
   this.getTopWindow = function()
   {
 	if (this.windowList.length > 0)
@@ -62,31 +61,28 @@ function windowManager()
   }
   this.toggleMinimize = function(winId)
   {
-	button = document.getElementById(winId +'_min')
-	button.src= myGuiManager.getMinOverImage()
-	client = document.getElementById(winId + '_client')
+	button = document.getElementById(winId +'_min');
+	button.src= myGuiManager.getMinOverImage();
+	client = document.getElementById(winId + '_client');
 	if(client.style.display == 'none')
 	{
-		
 		client.style.display = 'block'; 
 	} 
 	else 
 	{ 
-		
-		client.style.display ='none';//browser doesnt render this object so it won't capture events as opposed to visibility false (on mozilla)
+		client.style.display ='none';
+		/*browser doesnt render this object so it won't capture events as opposed to 
+		visibility false (on mozilla)*/
 	}
   }
   
   this.closeWindow = function(winId)
   {
 	
-	button = document.getElementById(winId +'_close')
-	
-	button.src= myGuiManager.getCloseOverImage()
-	
-	win = document.getElementById(winId)
-	
-	win.style.display = 'none'
+	button = document.getElementById(winId +'_close');
+	button.src= myGuiManager.getCloseOverImage();
+	win = document.getElementById(winId);
+	win.style.display = 'none';
   }
 
   this.addWindow = function(windowObj)
@@ -127,15 +123,15 @@ function windowManager()
 		}
 		else// found
 		{
-			this.windowList[i].setZ((i-1)*10); //assign new z-index
-			this.windowList[i-1] = this.windowList[i]; //push back
+			this.windowList[i].setZ((i- 1)*10); //assign new z-index
+			this.windowList[i- 1] = this.windowList[i]; //push back
 			
 		}
 	}
 	
 	if (found)
 	{
-		this.windowList[numInactiveWindows].setZ((numInactiveWindows-1)*10)//separate each window 10 layers away from each other just in case
+		this.windowList[numInactiveWindows].setZ((numInactiveWindows- 1)*10)//separate each window 10 layers away from each other just in case
 		this.windowList[numInactiveWindows].setInactiveLook();// previous active window
 		this.windowList[numInactiveWindows-1] = this.windowList[numInactiveWindows]
 		
@@ -145,72 +141,21 @@ function windowManager()
 	//else do nothing because the window clicked was already active	
 	this.windowList[numInactiveWindows].setActiveLook();
   }
-  
-  
+
 
 }
-function resizeWindowHandler()
-{
-		topWindow = myWindowManager.getTopWindow();
-		
-		if (!topWindow.isDocked())
-		{
-			t = topWindow.HTMLObject.style.left
-			x1i = parseInt(t.substring(0,t.length -2));
-			x1f = x1i + 10;
-			
-			t = topWindow.getWidth();
-			x2f = x1i + t;
-			x2i = x2f - 10;
-			
-			t = topWindow.HTMLObject.style.top
-			y1i = parseInt(t.substring(0,t.length -2));
-			y1f = y1i + 10;
-			
-			t = topWindow.getHeight();
-			y2f = y1i + t;
-			y2i = y2f - 10;
-			
-			
-			if (!rl)
-			{
-				if (tempX > x1i+1  && tempX < x1f && tempY > y1i && tempY < y2f)
-				{
-					
-					document.body.style.cursor = "w-resize";
-					rlr = true;
-				}
-				else
-				{
-					document.body.style.cursor = "default";
-					rlr = false;
-					
-				}
-				
-			}
-			else
-			{
-				newWidth = x2f - tempX +5;
-				
-				if (newWidth > 120)
-				{
-					topWindow.HTMLObject.style.left = parseInt(tempX) -5 + "px";
-					topWindow.setWidth(newWidth);
-				}
-			}
-			return rl
-	
-		}
-}
+
+
+
 function dragWindowHandler()
 {
 
-	 if (dragW != null)
-	 {
-		  /*Mozilla based browsers receive the event object "e" as a parameter
-		        for mozilla browsers you need to make sure when making an inline assignment of the function to a tag's event  you need to pass "event" as the function's parameter.
-					example:
-					<TAG id="myTag"  onsomeevent = "yourFunction(event )"  >
+	 /*Mozilla based browsers receive the event object "e" as a parameter
+	   for mozilla browsers you need to make sure when making an inline assignment 
+	   of the function to a tag's event  you need to pass the word "event" as the function's parameter.
+		
+	   example:
+		<TAG id="myTag"  onsomeevent = "yourFunction(event )"  >
 	                 
 		      When making a dot syntax assignment this is not necessary
 					example:	  
@@ -220,15 +165,18 @@ function dragWindowHandler()
 			
 					if (window.event) event.cancelBubble=true
 					else if (e.stopPropagation) e.stopPropagation()
-		    */
-		 //target = e.target != null ? e.target : e.srcElement;
+					target = e.target != null ? e.target : e.srcElement;
+	*/
+	 if (dragW != null)
+	 {
+		 	 
 	  
 		 wind = myWindowManager.getWindowObject(dragW);
 
 		 if (wind != null)
 		   {
 				
-				wind.setPosition(tempX-10,tempY-10);				
+				wind.setPosition(tempX- 10,tempY- 10);				
 				wind.notifyDrag();
 				
 		   }
@@ -237,9 +185,14 @@ function dragWindowHandler()
 
 }
 
+
+
+
+
+
 function intersectRect(rect1,rect2)
 {
-	return (rect2[0] > rect1[0]) && (rect2[0]< rect1[0] + rect1[2])&&(rect2[1] > rect1[1]) && (rect2[1]< rect1[1] + rect1[3])
+	return (rect2[0] > rect1[0]) && (rect2[0]< rect1[0] + rect1[2])&&(rect2[1] > rect1[1]) && (rect2[1]< rect1[1] + rect1[3]);
 }
 
 function mouseMoveHandler(e) 
@@ -251,8 +204,8 @@ function mouseMoveHandler(e)
 	tempX = e.clientX;
 	tempY = e.clientY;
 	 
-	dragWindowHandler();
-	resizeWindowHandler();
+	dragWindowHandler(); //dragging functionality
+	resizeWindowHandler(); //resize functionality
 	
 	
    return false;
@@ -261,18 +214,21 @@ function mouseMoveHandler(e)
 function dragWindow(idWindow)
 {
 	dragW = idWindow;
+	/*dragW is a global variable that stores the id of the window that is being dragged
+	 * if null it means no window is being dragged at the moment
+	 * 
+	 * check global function dragWindowHandler
+	 */
 	
     wind = myWindowManager.getWindowObject(dragW);
 	
 	if (wind)
 	{
-		
 		if (wind.isDocked())
 		{
-			wind.parentObj.removeNode(wind)	
-		}
-			
-		wind.setPosition(tempX-10,tempY-10);
+			wind.parentObj.removeNode(wind);
+		}	
+		wind.setPosition(tempX- 10,tempY- 10);
 	}	
 	return false;	
 }
@@ -289,29 +245,33 @@ function guiManager()
 	this.getClientPadding = function()
 	{
 		return 10;
-	}
+	};
 	this.getDefaultIcon = function()
 	{
 		return "./images/png/ie_16.png";
-	}
+	};
 	this.getActiveWindowHeaderBg = function()
 	{
-		return "rgb(77,235,137)";
-	}
+		return "rgb(21,42,246)";
+	};
 	
 	this.getInactiveWindowHeaderBg = function()
 	{
-		return "rgb(136,243,176)";
+		return "rgb(166,172,223)";
+	}
+	this.getWindowBorderColor = function()
+	{
+		return "rgb(0,0,0)";
 	}
 	
 	this.getWindowBorderStyle = function()
 	{
-		return "solid " +this.getWindowBorderWidth()+"px rgb(100,100,100)";
+		return "solid " +this.getWindowBorderWidth()+"px "+this.getWindowBorderColor();
 	}
 	
 	this.getWindowBorderWidth = function()
 	{
-		return 3
+		return 1;
 	}
 	
 	this.getWindowHeaderHeight = function()
@@ -345,7 +305,7 @@ function guiManager()
 	}
 	this.getWindowClientAreaBg = function()
 	{
-		return  "url('./images/transparentpixel.png')";//"rgb(255,255,255)";//
+		return  "rgb(255,255,255)";//"url('./images/transparentpixel.png')";//
 	}
 	this.getWindowDragImage = function()
 	{
@@ -355,10 +315,19 @@ function guiManager()
 	{
 		return "";//"filter:alpha(opacity=50);-moz-opacity:.50;opacity:.50;"
 	}
-	this.getWindowContainerOpacity = function()
+	this.getContainerOpacity = function()
 	{
 		return "";//"filter:alpha(opacity=30);-moz-opacity:.30;opacity:.30;"
 	}
+	this.getContainerBorderWidth = function()
+	{
+		return 5;//"";//
+	};
+	this.getContainerBorderStyle = function()
+	{
+		return "border:"+this.getContainerBorderWidth()+"px dashed;"//"";//
+	};
+	
 	this.getDockBorderOpacity = function()
 	{
 		return "filter:alpha(opacity=70);-moz-opacity:0.7;opacity:0.7;"
@@ -369,7 +338,7 @@ function guiManager()
 	}
 	this.getDockBorderColor = function()
 	{
-		return "red";
+		return "rgb(0,0,255)";
 	}
 	this.getDockBorderStyle = function()
 	{
@@ -377,3 +346,58 @@ function guiManager()
 	}
 	 
 }
+
+function resizeWindowHandler()
+{
+	topWindow = myWindowManager.getTopWindow();
+		
+		if (!topWindow.isDocked())
+		{
+			t = topWindow.HTMLObject.style.left
+			x1i = parseInt(t.substring(0,t.length - 2));
+			x1f = x1i + 10;
+			
+			t = topWindow.getWidth();
+			x2f = x1i + t;
+			x2i = x2f - 10;
+			
+			t = topWindow.HTMLObject.style.top
+			y1i = parseInt(t.substring(0,t.length - 2));
+			y1f = y1i + 10;
+			
+			t = topWindow.getHeight();
+			y2f = y1i + t;
+			y2i = y2f - 10;
+			
+			
+			if (!rl)
+			{
+				if (tempX > x1i+1  && tempX < x1f && tempY > y1i && tempY < y2f)
+				{
+					
+					document.body.style.cursor = "w-resize";
+					rlr = true;
+				}
+				else
+				{
+					document.body.style.cursor = "default";
+					rlr = false;
+					
+				}
+				
+			}
+			else
+			{
+				newWidth = x2f - tempX + 5;
+				
+				if (newWidth > 120)
+				{
+					topWindow.HTMLObject.style.left = parseInt(tempX) - 5 + "px";
+					topWindow.setWidth(newWidth);
+				}
+			}
+			return rl
+	
+		}
+}
+
