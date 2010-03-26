@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html xmlns = "http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Bien Varon Advanced Javascript GUI Toolkit - Container Test</title>
+	
+    <!-- #include file = "conexion.asp"-->
+   <script type="text/javascript" src ="jsvaron/jsTree.js">
+	
+	</script> 
+	<script type="text/javascript" src ="jsvaron/jsWindow.js">
+	
+	</script>
+	<script type="text/javascript" src ="jsvaron/jsTextField.js">
+	
+	</script>
+	<script type="text/javascript" src ="jsvaron/jsWindowManager.js">
+	
+	</script> 
+	<script type="text/javascript" src ="jsvaron/jsFlashObject.js">
+	
+	</script> 
+	
+	<script type="text/javascript" src ="jsvaron/jsDebug.js">
+	
+	</script>
+	<script type="text/javascript" src ="jsvaron/jsWindowContainer.js">
+	
+	</script> 
+	
+	<script type="text/javascript">
+	
+	
+	function populateTree(tree)
+	{
+	
+	
+	}	
+    function initialize()
+	{	
+			
+
+		    myWindowContainer = new jsWindowContainer("myContainer", 1200, 700,0,0);
+			myWindowContainer.createContainer("body");
+			
+			for(var i = 0 ; i < 3; i++ )
+			{
+				myDynamicWindow = new jsWindow("testWindow"+i,myWindowContainer,"tree example"+i, 300, 200,null,1210+i*10,100+i*50)
+				myTree = new jsTree();
+				//populateTree(myTree);
+				dummyContent(myTree);
+				myDynamicWindow.setContent(myTree);
+				myWindowManager.addWindow(myDynamicWindow);	
+			}
+			
+			myDynamicWindow = new jsWindow('testWindow5',myWindowContainer,'video example', 300, 200,null,1240,250)
+			myFlashObject = new jsFlashObject(425,350,"http://www.youtube.com/v/PtkUQbsvokw");
+			myDynamicWindow.setContent(myFlashObject);
+			myWindowManager.addWindow(myDynamicWindow);	
+			myDebugWindow.parentObj = myWindowContainer;
+	
+	}
+	
+	
+	</script>
+	
+</head>
+
+<body id= "body" onload="initialize(); myWindowManager.createWindows();" onmousemove="return mouseMoveHandler(event);" onmouseup= "dropWindow();myWindowManager.stopResize();"  style="overflow:hidden; background: #5380CA url('./images/bliss.jpg') no-repeat fixed center center">
+	
+	<H1>container Test</H1>	
+	
+</body>
+
+</html>
