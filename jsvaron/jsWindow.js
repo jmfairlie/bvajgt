@@ -39,31 +39,66 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 		this.posy = y;
 	};
 	
+	this.show = function(bool)
+	{
+		
+			if (bool)
+			{
+				this.HTMLObject.style.display = "block";
+			}
+			else
+			{
+				this.HTMLObject.style.display = "none";
+			}
+		
+	};
+	
+	this.showHeader = function(bool)
+	{
+		var header = document.getElementById(this.idWindow+"_header");
+		if(header!==null)
+		{
+			if (bool)
+			{
+				header.style.display = "block";
+			}
+			else
+			{
+				header.style.display = "none";
+			}
+		}
+	};
+	
 	this.getPosition = function()
 	{
 		return [this.posx,this.posy];
 	};
+	
 	this.restoreSize = function()
 	{
 		this.setWidth(this.owidth);
 		this.setHeight(this.oheight);
 	};
+	
 	this.isDocked = function()
 	{
 		return this.docked;
 	};
+	
 	this.Dock = function(bool)
 	{
 		this.docked = bool;
-		//this.showMinButton(bool);
+		this.showMinButton(bool);
 		this.showCloseButton(bool);	
 	};
+	
 	this.getRect = function()
 	{
 		l = this.HTMLObject.style.left;
 		t = this.HTMLObject.style.top;
 		return [parseInt(l.substring(0,l.length - 2),10),parseInt(t.substring(0,t.length - 2),10),this.width,this.height];
 	};
+	
 	this.notifyDrag = function()
 	{
 		if(this.parentObj !== null)
@@ -170,6 +205,7 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 			
 		}
 		
+		
 	}
 	this.redraw = function() //redraws content
 	{
@@ -267,5 +303,4 @@ function jsWindow(idWindow, parentObj, title, width, height,icon,posx,posy)
 			closeButton.style.display = "none";
 		}
 	};
-	
 }

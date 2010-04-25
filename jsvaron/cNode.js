@@ -13,10 +13,61 @@ function cNode(id,parent,windowObj,position)
 	//window gets a reference of the node its inserted in
 	this.HTMLObject = null; //div element
 	this.position = position;
+	this.tabbed = false;
+	this.windowList = null;
+	this.activeTab = 0;
+	this.tabHeader = null;
+	
+	this.selectTab = function(idWindow)
+	{
+		this.windowList[this.activeTab].show(false);
+		for(var i=0; i<this.windowList.length; i++)
+		{
+			if(this.windowList[i].idWindow==idWindow)
+			{
+				this.activeTab = i;
+				this.windowList[i].show(true);			
+			}	
+		}
+	};
+	this.insertTab = function(newWindowObj)
+	{
+		
+		if(!this.tabbed)
+		{
+			this.windowList = new Array();
+			this.windowList.push(this.windowObj);//add original window to list
+			this.windowObj.showHeader(false);
+			this.windowObj.show(false);//display none
+			this.tabHeader = new jsTabHeader(this.width,myGuiManager.getWindowHeaderHeight()+ 2, this);
+			this.HTMLObject.insertBefore(this.tabHeader.HTMLObject,this.windowObj.HTMLObject);
+			this.tabHeader.insertTab(this.windowObj.title,this.windowObj.idWindow);
+			this.tabbed = true;
+		}
+		else
+		{
+			this.windowList[this.windowList.length- 1].show(false);//display none
+		}
+		
+		this.windowList.push(newWindowObj);//add new window to list
+		this.activeTab = this.windowList.length- 1;
+		this.tabHeader.insertTab(newWindowObj.title,newWindowObj.idWindow);
+			
+		//prepare window for insertion
+		newWindowObj.HTMLObject.style.position = "relative";
+		newWindowObj.HTMLObject.style.left = "";
+		newWindowObj.HTMLObject.style.top = "";
+		newWindowObj.setWidth(this.width);
+		newWindowObj.setHeight(this.height);
+		newWindowObj.showHeader(false);
+		
+		//append window in container
+		this.HTMLObject.appendChild(newWindowObj.HTMLObject);
+		
+	};
 	
 	this.resize = function(vertical)
 	{
-		
 		this.height = (vertical)?this.height*2:this.height; 
 		this.width  = (vertical)?this.width:this.width*2; 
 		this.HTMLObject.style.width = this.width+"px";
@@ -26,13 +77,28 @@ function cNode(id,parent,windowObj,position)
 	
 	this.resizeWindow = function()
 	{
-		if (this.windowObj)
+		 if (this.windowObj)
 		{
-			this.windowObj.setHeight(this.height);
-			this.windowObj.setWidth(this.width);
+			
+			if(this.tabbed)
+			{
+				alert('FOFOX');
+				this.tabHeader.setWidth(this.width);
+				for(var i=0; i< this.windowList.length; i++)
+				{
+					alert('FOFO');
+					this.windowList[i].setHeight(this.height);
+					this.windowList[i].setWidth(this.width);
+				}
+			}
+			else
+			{
+				
+				this.windowObj.setHeight(this.height);
+				this.windowObj.setWidth(this.width);
+			}
 		}
-	};
-	
+	};	
 	
 	this.findAbsPos = function() 
 	{
@@ -45,15 +111,12 @@ function cNode(id,parent,windowObj,position)
 			curtop = obj.offsetTop;
 			while ((obj = obj.offsetParent) !== null ) 
 			{
-				
 				curleft += obj.offsetLeft;
-				curtop += obj.offsetTop;
-				
+				curtop += obj.offsetTop;	
 			}
 		}
 		return [curleft,curtop];
-	};
-	
+	};	
 	
 	this.createContainer = function()
 	{
@@ -68,13 +131,17 @@ function cNode(id,parent,windowObj,position)
 			this.HTMLObject = document.createElement('div');
 			this.HTMLObject.setAttribute('id',this.parent.id+"."+position);
 			
-			/*
-			floated objects need a width!!
-			If no width is set, the results can be unpredictable. Theoretically, a floated element with an undefined width should shrink to the widest element within it. This could be a word, a sentence or even a single character - and results can vary from browser to browser.
+		   /*
+			*	floated objects need a width!!
+			*	If no width is set, the results can be unpredictable. 
+			*   Theoretically, a floated element with an undefined width should shrink to the widest 
+			*   element within it. This could be a word, a sentence or even a single character - and 
+			*   results can vary from browser to browser.
+			*   the overflow hidden is strictly necessary for firefox to render the divs correctly
 			*/
-			//background: rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+");
-			//the overflow hidden is strictly necessary for firefox to render the divs correctly
-			this.HTMLObject.style.cssText = "overflow:hidden;width:"+this.width+"px;position:relative;" +cssfloat;//weird hack setAttribute doesnt work in IE for style
+			
+			this.HTMLObject.style.cssText = "overflow:hidden;width:"+this.width+"px;position:relative;" +cssfloat;
+			//weird hack setAttribute doesnt work in IE for style
 			
 			//append new container in  parent container
 			parent.HTMLObject.appendChild(this.HTMLObject);
@@ -169,10 +236,10 @@ function cNode(id,parent,windowObj,position)
 		{
 			return this.west2;
 		}
-		else if (this.pointIsCenter(point))
+		/*else if (this.pointIsCenter(point))
 		{
 			return this.center2;
-		}
+		}*/
 		else 
 		{
 			return null;// no match

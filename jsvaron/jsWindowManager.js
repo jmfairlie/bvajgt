@@ -83,6 +83,7 @@ function windowManager()
 	button.src= myGuiManager.getCloseOverImage();
 	win = document.getElementById(winId);
 	win.style.display = 'none';
+	
   }
 
   this.addWindow = function(windowObj)

@@ -52,8 +52,10 @@ function cTree(mainContainer)
 			prevWindowObj = parentObj.windowObj; //window inside container
 			
 			
-			if (position == _CENTER)//tab insert
-			{
+			//if (position == _CENTER)//tab insert
+			//{
+				
+				//parentObj.insertTab(windowObj);
 				/*
 				 * TO DO code for tab stuff
 				 * 
@@ -68,12 +70,14 @@ function cTree(mainContainer)
 				 * 
 				 * create tab handle and insert it in node header
 				 * Tab handles have to manage onClick events and display 
-				 * their corresponding window, and display none the others
+				 * their corresponding window, and display none of the others
 				 * 
 				 */
-			}
-			else 
+				
+			//}
+			//else 
 			//regular spliting insert
+			if(true)
 			{
 				//remove parent window from current parent 
 				prevWindowObj.HTMLObject.parentNode.removeChild(prevWindowObj.HTMLObject);
