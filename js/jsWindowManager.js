@@ -249,7 +249,7 @@ function guiManager()
     };
     this.getDefaultIcon = function()
     {
-        return "./images/png/zip_16.png";
+        return "./images/zip_16.png";
     };
     this.getActiveWindowHeaderBg = function()
     {
@@ -292,28 +292,28 @@ function guiManager()
     }
     this.getMinOverImage = function()
     {
-        return "./images/button/minOver.png";
+        return "./images/minOver.png";
     }
     this.getMinOutImage = function()
     {
-        return "./images/button/minOut.png";
+        return "./images/minOut.png";
     }
     this.getMinDownImage = function()
     {
-        return "./images/button/minDown.png";
+        return "./images/minDown.png";
     }
 
     this.getCloseOverImage = function()
     {
-        return "./images/button/closeOver.png";
+        return "./images/closeOver.png";
     }
     this.getCloseOutImage = function()
     {
-        return "./images/button/closeOut.png";
+        return "./images/closeOut.png";
     }
     this.getCloseDownImage = function()
     {
-        return "./images/button/closeDown.png";
+        return "./images/closeDown.png";
     }
     this.getWindowClientAreaBg = function()
     {
@@ -321,7 +321,7 @@ function guiManager()
     }
     this.getWindowDragImage = function()
     {
-        return "./images/button/drag.png";
+        return "./images/drag.png";
     }
     this.getWindowOpacity = function()
     {
