@@ -1,0 +1,30 @@
+body {
+    overflow:hidden;
+    background: #CCCCCC;
+    margin:0;
+
+}
+
+.comments {
+    background-color: white;
+    color: #444;
+    border:1px solid gray;
+    margin-top:20px;
+    text-align: left;
+    padding:15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#layout-manager {
+    position:relative;
+    background-color: gray;
+    width:100%;
+    height:100%;
+}
+
+.wrapper {
+    width:800px;
+    height:600px;
+    margin-left:auto;
+    margin-right:auto;
+}
